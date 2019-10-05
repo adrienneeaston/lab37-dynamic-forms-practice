@@ -1,30 +1,41 @@
-import React from 'react';
-import { connect } from 'react-redux';
+import React from "react";
+import { connect } from "react-redux";
 
-import PlayerForm from './player-form.js';
-import * as actions from '../store/players.store.js';
+import Form from "react-jsonschema-form";
+import schema from "../schema.json";
+
+import * as actions from "../store/players.store.js";
 
 console.log(actions);
 
-class Player extends React.Component {
+const uiSchema = {
+  _id: { "ui:widget": "hidden" },
+  __v: { "ui:widget": "hidden" }
+};
 
-  handleSubmit = (formData) => {
-    if (parseInt(this.props.id) >= 0) {
-      this.props.handlePut({ id: this.props.id, record: formData });
-    }
-    else {
-      this.props.handlePost(formData);
-    }
+class Player extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { schema: schema };
   }
 
-  render() {
+  handleSubmit = formData => {
+    if (parseInt(this.props.id) >= 0) {
+      this.props.handlePut({ id: this.props.id, record: formData });
+    } else {
+      this.props.handlePost(formData);
+    }
+  };
 
-    console.log(this.props.players[this.props.id])
+  render() {
+    console.log(this.props.players[this.props.id]);
     return (
       <div>
         <h3>Edit Player {this.props.id}</h3>
-        <PlayerForm
-          initialValues={this.props.players[this.props.id]}
+        <Form
+          schema={this.state.schema}
+          uiSchema={uiSchema}
+          formData={this.props.players[this.props.id]}
           onSubmit={this.handleSubmit}
         />
       </div>
@@ -32,17 +43,16 @@ class Player extends React.Component {
   }
 }
 
-
 const mapStateToProps = state => ({
-  players: state.players,
+  players: state.players
 });
 
 const mapDispatchToProps = (dispatch, getState) => ({
   handlePost: payload => dispatch(actions.post(payload)),
-  handlePut: payload => dispatch(actions.put(payload)),
+  handlePut: payload => dispatch(actions.put(payload))
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Player);
