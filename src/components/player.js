@@ -19,11 +19,12 @@ class Player extends React.Component {
     this.state = { schema: schema };
   }
 
-  handleSubmit = formData => {
+  handleSubmit = form => {
+    console.log("HELLLLLOOO");
     if (parseInt(this.props.id) >= 0) {
-      this.props.handlePut({ id: this.props.id, record: formData });
+      this.props.handlePut({ id: this.props.id, record: form.formData });
     } else {
-      this.props.handlePost(formData);
+      this.props.handlePost(form.formData);
     }
   };
 
