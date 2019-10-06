@@ -1,22 +1,24 @@
 let initialState = [
-  {name:'john',team:'Mariners'},
-  { name: 'zach', team: 'Wildcats' },
+  { name: "john", team: "Mariners" },
+  { name: "zach", team: "Wildcats" }
 ];
 
 export default (state = initialState, action) => {
   let { type, payload } = action;
 
   switch (type) {
-    case 'GET':
-      return {  };
+    case "GET":
+      return {};
 
-    case 'POST':
+    case "POST":
       return [...state, payload];
 
-    case 'PUT':
-      return state.map( (record,idx) => idx===payload.id ? payload.record : record );
+    case "PUT":
+      return state.map((record, idx) =>
+        idx === payload.id ? payload.record : record
+      );
 
-    case 'DELETE':
+    case "DELETE":
       return state.filter((record, idx) => idx !== payload);
 
     default:
@@ -26,28 +28,28 @@ export default (state = initialState, action) => {
 
 export const get = payload => {
   return {
-    type: 'GET',
-    payload: payload,
+    type: "GET",
+    payload: payload
   };
 };
 
 export const post = payload => {
   return {
-    type: 'POST',
-    payload: payload,
+    type: "POST",
+    payload: payload
   };
 };
 
 export const put = payload => {
   return {
-    type: 'PUT',
-    payload: payload,
+    type: "PUT",
+    payload: payload
   };
 };
 
 export const destroy = payload => {
   return {
-    type: 'DELETE',
-    payload: payload,
+    type: "DELETE",
+    payload: payload
   };
 };
